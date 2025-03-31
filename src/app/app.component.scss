@@ -1,3 +1,11 @@
-h1 {
-    font-family: 'DM Sans';
+app-header,
+app-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+
+app-footer {
+  bottom: 0;
 }

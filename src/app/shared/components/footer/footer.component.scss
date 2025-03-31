@@ -1,0 +1,16 @@
+footer {
+  display: flex;
+  justify-content: center;
+}
+
+ul {
+  display: flex;
+  gap: 48px;
+  li {
+    font-family: DM Sans;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0%;
+  }
+}
