@@ -1,0 +1,86 @@
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.background {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  border-radius: 48px;
+  padding: 43px 24px;
+  max-width: 350px;
+  width: 100%;
+}
+
+h1 {
+  color: #2E3EDF;
+}
+
+form {
+  max-width: 310px;
+  width: 100%;
+}
+
+.form-field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+input {
+  border-radius: 12px;
+  border: 1px solid #2E3EDF;
+  padding: 12px 24px;
+}
+
+label {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  color: #2E3EDF;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.sign-up-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.forgot-password,
+.sign-up {
+  color: #2E3EDF;
+  font-weight: 700;
+}
+
+

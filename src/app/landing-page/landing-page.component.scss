@@ -24,7 +24,12 @@ main::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(180deg, #000000 -9.91%, rgba(0, 0, 0, 0.55) 54.3%, #000000 98.36%);
+  background: linear-gradient(
+    180deg,
+    #000000 -9.91%,
+    rgba(0, 0, 0, 0.55) 54.3%,
+    #000000 98.36%
+  );
 }
 
 .hero {
@@ -41,11 +46,9 @@ p {
   flex-direction: column;
   gap: 16px;
   color: rgba(255, 255, 255, 0.695);
-  font-family: "DM Sans";
 }
 
 h1 {
-  font-family: DM Sans;
   font-weight: 700;
   font-size: 40px;
   line-height: 100%;
@@ -54,7 +57,6 @@ h1 {
 }
 
 h3 {
-  font-family: DM Sans;
   font-weight: 500;
   font-size: 20px;
   line-height: 100%;
@@ -63,7 +65,6 @@ h3 {
 }
 
 p {
-  font-family: DM Sans;
   font-weight: 400;
   font-size: 16px;
   line-height: 100%;
@@ -71,20 +72,21 @@ p {
   text-align: center;
 }
 
-.form-container,
 form {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   align-items: center;
-}
-
-form {
-  max-width: 358px;
+  gap: 8px;
 }
 
 .form-field {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  max-width: 358px;
+  width: 100%;
 }
 
 label {
@@ -112,6 +114,7 @@ input {
   letter-spacing: 0%;
   text-align: center;
   color: white;
+  width: 100%;
 }
 
 button {
