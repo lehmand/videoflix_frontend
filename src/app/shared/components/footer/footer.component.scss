@@ -1,6 +1,10 @@
 footer {
   display: flex;
   justify-content: center;
+  position: absolute;
+  bottom: 48px;
+  left: 0;
+  right: 0;
 }
 
 ul {
