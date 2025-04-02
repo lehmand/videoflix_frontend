@@ -11,4 +11,7 @@
   line-height: 100%;
   letter-spacing: 0%;
   cursor: pointer;
+  &:hover {
+    background-color: #525dde;
+  }
 }
