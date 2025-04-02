@@ -6,6 +6,11 @@ main {
   align-items: center;
 }
 
+h1 {
+  color: #2E3EDF;
+  font-size: 40px;
+}
+
 main::before {
   content: "";
   position: absolute;
@@ -21,20 +26,11 @@ main::before {
   );
 }
 
-h1 {
-  color: #2e3edf;
-  font-family: DM Sans;
-  font-weight: 700;
-  font-size: 40px;
-  line-height: 100%;
-  letter-spacing: 0%;
-}
-
 img {
   position: absolute;
   top: 0;
   left: 0;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   object-fit: cover;
   z-index: -1;
@@ -44,20 +40,25 @@ img {
   background-color: white;
   border-radius: 48px;
   padding: 43px 24px;
+  min-width: 320px;
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 32px;
-  min-width: 358px;
-  z-index: 1;
+  gap: 12px;
 }
 
 .form-field {
   position: relative;
-  width: 100%;
+}
+
+.text-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
 }
 
 form {
@@ -65,5 +66,4 @@ form {
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  width: 100%;
 }
