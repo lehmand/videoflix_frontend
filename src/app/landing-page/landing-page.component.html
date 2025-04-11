@@ -5,14 +5,13 @@
       <h1>Movies, TV shows and more</h1>
       <h3>Watch whenever you want wherever you want</h3>
     </div>
-    <form>
+    <form [formGroup]="emailForm" (ngSubmit)="checkUser()">
       <p>Enter your email to create an account. </p>
       <div class="form-field">
-        <input type="email" id="email" />
-        <label for="email">Email Address</label>
+        <input formControlName="email" type="email" id="email" placeholder='Email address' />
       </div>
       <div class="button-container">
-        <button class="btn-main">
+        <button class="btn-main" type="submit" [disabled]="!emailForm.valid">
           Sign up <img src="assets/icons/chevron_right.png" alt="" />
         </button>
       </div>

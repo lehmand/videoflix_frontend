@@ -110,15 +110,19 @@ input {
   font-family: DM Sans;
   font-weight: 400;
   font-size: 16px;
-  line-height: 100%;
-  letter-spacing: 0%;
-  text-align: center;
   color: white;
   width: 100%;
+}
+
+::placeholder {
+  color: white
 }
 
 button {
   display: flex;
   align-items: center;
   gap: 4px;
+  &:disabled {
+    background-color: #787fc5;
+  }
 }
