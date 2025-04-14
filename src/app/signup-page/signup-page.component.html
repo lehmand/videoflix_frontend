@@ -2,21 +2,21 @@
   <img src="assets/img/signup-page-background.jpeg" alt="">
   <div class="card">
     <h1>Sign Up</h1>
-    <form>
+    <form [formGroup]="signUpForm" (ngSubmit)="register()">
       <div class="form-field">
-        <input class="input-main" type="email" id="email" placeholder="">
+        <input formControlName="email" class="input-main" type="email" id="email" placeholder="">
         <label class="label-main" for="email">Email Address</label>
       </div>
       <div class="form-field">
-        <input class="input-main" type="password" id="password" placeholder="">
+        <input formControlName="password" class="input-main" type="password" id="password" placeholder="">
         <label class="label-main" for="password">Enter a password</label>
       </div>
       <div class="form-field">
-        <input class="input-main" type="password" id="confirm" placeholder="">
+        <input formControlName="repeated_password" class="input-main" type="password" id="confirm" placeholder="">
         <label class="label-main" for="confirm">Confirm Password</label>
       </div>
       <div class="button-container">
-        <button class="btn-main" type="submit">Get Started</button>
+        <button class="btn-main" type="submit" [disabled]="signUpForm.invalid">Get Started</button>
       </div>
     </form>
   </div>
