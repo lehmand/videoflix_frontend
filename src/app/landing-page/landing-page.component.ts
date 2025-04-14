@@ -23,29 +23,29 @@ export class LandingPageComponent {
     email: new FormControl('')
   })
 
-  checkUser(){
-    if(this.emailForm.invalid){
-      console.error('Form error!')
-      return
+  checkUser() {
+    if (this.emailForm.invalid) {
+      console.error('Form error!');
+      return;
     }
-
-    const emailInput = this.emailForm.get('email')?.value
-    if(!emailInput){
-      console.error('No email provided.')
-      return
+  
+    const emailInput = this.emailForm.get('email')?.value;
+    if (!emailInput) {
+      console.error('No email provided.');
+      return;
     }
-
-    this.authService.checkUser(emailInput).subscribe(
-      (response: any) => {
-        if(response.ok) {
-          this.router.navigate(['/login'])
+  
+    this.authService.checkUser(emailInput).subscribe({
+      next: (response: any) => {
+        if (response.ok) {
+          this.router.navigate(['/login']);
         } else {
-          this.router.navigate(['/signup'])
+          this.router.navigate(['/signup']);
         }
       },
-      error => {
-        console.error('Error at request: ', error)
+      error: (err: any) => {
+        console.error('Error at request: ', err);
       }
-    )
+    });
   }
 }
