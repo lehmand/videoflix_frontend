@@ -6,14 +6,17 @@
       <div class="form-field">
         <input formControlName="email" class="input-main" type="email" id="email" placeholder="">
         <label class="label-main" for="email">Email Address</label>
+        <p class="error" *ngIf="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched && ((signUpForm.get('email')?.value?.length || 0) > 4)">Please enter a valid email.</p>
       </div>
       <div class="form-field">
         <input formControlName="password" class="input-main" type="password" id="password" placeholder="">
         <label class="label-main" for="password">Enter a password</label>
+        <p class="error" *ngIf="signUpForm.get('password')?.invalid && (signUpForm.get('password')?.touched || signUpForm.get('password')?.dirty)">Password must be at least 6 characters long.</p>
       </div>
       <div class="form-field">
         <input formControlName="repeated_password" class="input-main" type="password" id="confirm" placeholder="">
         <label class="label-main" for="confirm">Confirm Password</label>
+        <p class="error" *ngIf="signUpForm.get('password')?.value !== signUpForm.get('repeated_password')?.value" >Passwords do not match</p>
       </div>
       <div class="button-container">
         <button class="btn-main" type="submit" [disabled]="signUpForm.invalid">Get Started</button>

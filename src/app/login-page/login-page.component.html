@@ -2,17 +2,19 @@
     <img src="assets/img/login-page-background.jpeg" alt="" class="background">
     <div class="card">
       <h1>Login</h1>
-      <form action="">
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
         <div class="form-field">
-          <input class="input-main" type="email" id="email" placeholder="">
+          <input formControlName="email" class="input-main" type="email" id="email" placeholder="">
           <label class="label-main" for="email">Email Address</label>
+          <p class="error" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched && ((loginForm.get('email')?.value?.length || 0) > 4)">Please enter a valid email.</p>
         </div>
         <div class="form-field">
-          <input class="input-main" type="password" id="password" placeholder="">
+          <input formControlName="password" class="input-main" type="password" id="password" placeholder="">
           <label class="label-main" for="password">Password</label>
+          <p class="error" *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)">Password must be at least 6 characters long.</p>
         </div>
         <div class="button-container">
-          <button class="btn-main" type="submit">Log in</button>
+          <button class="btn-main" type="submit" [disabled]="loginForm.invalid">Log in</button>
         </div>
       </form>
       <div class="options-container">
