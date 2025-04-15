@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class ToastService {
 
-  showToastMessage: boolean = false
-
   constructor() { }
+
+  public showToastMessage: boolean = true;
+  public toastMessage: string = '';
 }

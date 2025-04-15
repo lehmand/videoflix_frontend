@@ -5,7 +5,7 @@
       <h1>Forgot your password?</h1>
       <p>We will send you an email with instructions to reset your password.</p>
     </div>
-    <form #forgotForm="ngForm">
+    <form #forgotForm="ngForm" (ngSubmit)="resetPassword()">
       <div class="form-field">
         <input [(ngModel)]="email" class="input-main" type="email" id="email" placeholder="" name="email" required="">
         <label class="label-main" for="email">Email Address</label>
@@ -14,7 +14,7 @@
         </p>
       </div>
       <div class="button-container">
-        <button type="submit" class="btn-main" [disabled]="forgotForm.controls['email']?.invalid">Send Email</button>
+        <button type="submit" class="btn-main" [disabled]="forgotForm.controls['email'].invalid">Send Email</button>
       </div>
     </form>
   </div>

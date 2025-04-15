@@ -3,6 +3,7 @@
     <img [src]=logoSrc alt="" routerLink="">
   </div>
   <div class="button-container">
-    <button routerLink="/login" class="btn-main">Log in</button>
+    <button *ngIf="!authService.isLoggedIn" routerLink="/login" class="btn-main">Log in</button>
+    <button *ngIf="authService.isLoggedIn" class="btn-main btn-logout" (click)="logout()"><img src="assets/icons/logout.svg" alt="">Logout</button>
   </div>
 </header>
