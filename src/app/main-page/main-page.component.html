@@ -1,8 +1,18 @@
 <main>
-  <div class="video-category-container" *ngFor="let categorie of categories">
-    <h1> {{ categorie }} </h1>
+  <div class="video-category-container" *ngFor="let cat of categories">
+    <h1> {{ cat }} </h1>
     <div class="thumbnail-row-container">
-      
+      <ng-container *ngIf="getVideosByCategory(cat).length; else noVideos">
+        <img
+          *ngFor="let video of getVideosByCategory(cat)"
+          [src]="video.thumbnail"
+          [alt]="video.title"
+          class="thumbnail"
+        />
+      </ng-container>
+      <ng-template #noVideos>
+        <p>Keine Videos in dieser Kategorie.</p>
+      </ng-template>
     </div>
   </div>
 </main>

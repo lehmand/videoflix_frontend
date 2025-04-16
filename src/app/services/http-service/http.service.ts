@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -27,11 +28,11 @@ export class HttpService {
   }
 
   patch(url: string, body: any){
-    return this.http.post(url, body, { headers: this.getHeaders()})
+    return this.http.patch(url, body, { headers: this.getHeaders()})
   }
 
-  get(url: string, body: any){
-    return this.http.post(url, body, { headers: this.getHeaders()})
+  get<T>(url: string): Observable<T>{
+    return this.http.get<T>(url, { headers: this.getHeaders()})
   }
 
 }
