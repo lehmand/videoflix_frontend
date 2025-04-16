@@ -25,6 +25,16 @@
   gap: 16px;
 }
 
+.divider {
+  background-color: white;
+  height: 32px;
+  width: 2px;
+}
+
+.close-button-container {
+  cursor: pointer;
+}
+
 @keyframes slide-up {
   from {
     transform: translateY(100%);
@@ -50,5 +60,15 @@
 @media only screen and (min-width: 768px) {
   .toast-container {
     animation: slide-right 0.3s ease-out;
+    bottom: 16px;
+    left: 16px;
+    border-radius: 20px;
+    border-top: none;
+    border-left: 16px solid red;
+    flex-direction: row;
+  }
+
+  .error-container {
+    align-items: center;
   }
 }

@@ -7,6 +7,6 @@ export class ToastService {
 
   constructor() { }
 
-  public showToastMessage: boolean = true;
+  public showToastMessage: boolean = false;
   public toastMessage: string = '';
 }

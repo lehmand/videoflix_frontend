@@ -6,6 +6,7 @@ import { AuthService } from '../services/auth-service/auth.service';
 import { ToastService } from '../services/toast-service/toast.service';
 import { ToastMessageComponent } from '../shared/components/toast-message/toast-message.component';
 import { CommonModule } from '@angular/common';
+import { timer } from 'rxjs';
 
 
 @Component({
@@ -44,28 +45,28 @@ export class LandingPageComponent implements OnInit {
     }
   
     this.authService.checkUser(emailInput).subscribe({
-      next: (response: any) => {
-        if (response.ok) {
-          this.toastService.toastMessage = 'Email already exists. Redirecting to log in.'
-          this.toastService.showToastMessage = true;
-          setTimeout(() => {
-            this.router.navigate(['/login']);
-            this.toastService.showToastMessage = false;
-          }, 2000);
-        } else {
-          this.toastService.toastMessage = 'Email not found. Redirecting to sign up.'
-          this.toastService.showToastMessage = true;
-          setTimeout(() => {
-            this.router.navigate(['/signup']);
-            this.toastService.showToastMessage = false;
-          }, 2000);
-        }
+      next: resp => {
+        const message = resp.ok
+          ? 'Email already exists. Redirecting to log in.'
+          : 'Email not found. Redirecting to sign up.';
+        const path = resp.ok ? '/login' : '/signup';
+        this.showToastAndRedirect(message, path);
       },
-      error: (err: any) => {
-        console.error('Error at request: ', err);
+      error: err => {
+        console.error('Request‑Error:', err);
         this.toastService.toastMessage = 'An error occurred. Please try again later.';
         this.toastService.showToastMessage = true;
       }
+    });
+  }
+
+  private showToastAndRedirect(message: string, path: string) {
+    this.toastService.toastMessage = message;
+    this.toastService.showToastMessage = true;
+    // statt setTimeout: RxJS‑timer nutzen (optional)
+    timer(2000).subscribe(() => {
+      this.router.navigate([path]);
+      this.toastService.showToastMessage = false;
     });
   }
 }

@@ -2,11 +2,15 @@
     <div class="error-container">
       <img src="assets/icons/exclamation.svg" alt="exclamation-mark-icon">
       <p class="error-message"> {{ toastService.toastMessage }} </p>
-      <div class="close-button-container">
+      <div class="close-button-container" *ngIf="isMobile" (click)="close()">
         <img src="assets/icons/close_small.svg" alt="close-button">
       </div>
     </div>
-    <div class="error-button-container">
-      <button class="btn-secondary">Click</button>
+    <div class="error-button-container" (click)="close()">
+      <button class="btn-secondary">Close</button>
+    </div>
+    <div class="divider" *ngIf="!isMobile"></div>
+    <div class="close-button-container" *ngIf="!isMobile" (click)="close()">
+      <img src="assets/icons/close_small.svg" alt="close-button">
     </div>
 </div>
