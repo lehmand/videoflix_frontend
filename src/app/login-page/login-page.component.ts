@@ -28,6 +28,7 @@ export class LoginPageComponent {
       next: (response) => {
         console.log('Login successfull', response)
         this.navigation.navigateTo('main')
+        this.navigation.isOnMainPage = true
       },
       error: (error) => {
         console.error('Something went wrong.')

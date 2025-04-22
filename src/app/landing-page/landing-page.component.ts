@@ -63,7 +63,6 @@ export class LandingPageComponent implements OnInit {
   private showToastAndRedirect(message: string, path: string) {
     this.toastService.toastMessage = message;
     this.toastService.showToastMessage = true;
-    // statt setTimeout: RxJS‑timer nutzen (optional)
     timer(2000).subscribe(() => {
       this.router.navigate([path]);
       this.toastService.showToastMessage = false;

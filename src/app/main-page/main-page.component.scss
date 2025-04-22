@@ -6,7 +6,8 @@ main {
   height: 100vh;
   width: 100%;
   background-color: #141414;
-  gap: 24px;
+  gap: 8px;
+  overflow: hidden;
 }
 
 h1 {
@@ -18,4 +19,87 @@ h1 {
   height: 120px;
   width: 215px;
   object-fit: cover;
+  cursor: pointer;
+  transition: all 500ms ease;
+}
+
+.thumbnail:hover {
+  filter: brightness(0.7);
+  scale: 1.02;
+}
+
+.video-category-container {
+  padding: 0 24px;
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+
+.video-content-container {
+  position: relative;
+  top: 175px;
+}
+
+.video-preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.preview-thumbnail {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  position: relative;
+}
+
+.preview-thumbnail-container::before {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    #000000 -9.91%,
+    rgba(0, 0, 0, 0.55) 54.3%,
+    #000000 98.36%
+  );
+}
+
+.preview-text,
+.close-button {
+  position: absolute;
+}
+
+.preview-text {
+  bottom: 42px;
+  left: 24px;
+  color: white;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+h2 {
+  font-size: 88px;
+}
+
+.scrollable-content {
+  position: absolute;
+  top: 325px; 
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollable-content::-webkit-scrollbar {
+  display: none;
 }

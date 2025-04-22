@@ -7,6 +7,12 @@ footer {
   right: 0;
 }
 
+.footer-main-page {
+  justify-content: flex-end;
+  right: 24px;
+  bottom: 12px
+}
+
 ul {
   display: flex;
   gap: 48px;

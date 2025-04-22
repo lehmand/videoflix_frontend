@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 })
 export class NavigationService {
 
+  isOnMainPage: boolean = true
+
   constructor(private router: Router, private location: Location) { }
 
   navigateTo(path: string){

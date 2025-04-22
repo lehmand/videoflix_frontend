@@ -1,18 +1,52 @@
 <main>
-  <div class="video-category-container" *ngFor="let cat of categories">
-    <h1> {{ cat }} </h1>
-    <div class="thumbnail-row-container">
-      <ng-container *ngIf="getVideosByCategory(cat).length; else noVideos">
+  <div class="video-preview" *ngIf="selectedVideo">
+    <div class="preview-content">
+      <div class="preview-thumbnail-container">
         <img
-          *ngFor="let video of getVideosByCategory(cat)"
+          [src]="selectedVideo.thumbnail"
+          alt="Vorschaubild"
+          class="preview-thumbnail"
+        />
+      </div>
+      <div class="preview-text">
+        <h2>{{ selectedVideo.title }}</h2>
+        <p>{{ selectedVideo.description }}</p>
+        <div class="button-container">
+          <button class="btn-main">Play</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scrollable-content">
+    <div class="video-category-container" *ngIf="getRecentVideos().length">
+      <h1>New on Videoflix</h1>
+      <div class="thumbnail-row-container">
+        <img
+          *ngFor="let video of getRecentVideos()"
           [src]="video.thumbnail"
           [alt]="video.title"
           class="thumbnail"
+          (click)="selectVideo(video)"
         />
-      </ng-container>
-      <ng-template #noVideos>
-        <p>Keine Videos in dieser Kategorie.</p>
-      </ng-template>
+      </div>
+    </div>
+    <div class="video-category-container" *ngFor="let cat of categories">
+      <h1>{{ cat }}</h1>
+      <div class="thumbnail-row-container">
+        <ng-container *ngIf="getVideosByCategory(cat).length; else noVideos">
+          <img
+            *ngFor="let video of getVideosByCategory(cat)"
+            [src]="video.thumbnail"
+            [alt]="video.title"
+            class="thumbnail"
+            (click)="selectVideo(video)"
+          />
+        </ng-container>
+        <ng-template #noVideos>
+          <p>Keine Videos in dieser Kategorie.</p>
+        </ng-template>
+      </div>
     </div>
   </div>
 </main>
