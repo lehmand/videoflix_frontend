@@ -15,16 +15,7 @@
           [poster]="getFullThumbnailUrl()"
           [videoSources]="videoSources">
         </app-video-player>
-      </div>
-      <div class="quality-selector">
-        <p>Qualität:</p>
-        <div class="quality-buttons">
-          <button (click)="selectQuality('480p')" [class.active]="currentQuality === '480p'">480p</button>
-          <button (click)="selectQuality('720p')" [class.active]="currentQuality === '720p'">720p</button>
-          <button (click)="selectQuality('original')" [class.active]="currentQuality === 'original'">Original</button>
-        </div>
-      </div>
-      
+      </div>      
       <div class="video-info">
         <h1>{{ video.title }}</h1>
         <p class="description">{{ video.description }}</p>

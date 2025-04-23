@@ -25,7 +25,7 @@ export class VideoPageComponent implements OnInit {
   loading: boolean = true;
   error: string | null = null;
   videoSources: VideoSource[] = [];
-  currentQuality: string = '720p';
+  currentQuality: string = 'Original';
 
   constructor(
     private route: ActivatedRoute,
