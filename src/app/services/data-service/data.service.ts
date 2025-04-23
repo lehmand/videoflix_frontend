@@ -17,4 +17,8 @@ export class DataService {
   getVideos(): Observable<Video[]> {
     return this.httpService.get<Video[]>(this.BASE_URL)
   }
+
+  getVideoById(id: number): Observable<Video> {
+    return this.httpService.get<Video>(`${this.BASE_URL}${id}/`)
+  }
 }

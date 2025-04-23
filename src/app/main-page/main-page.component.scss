@@ -28,6 +28,11 @@ h1 {
   scale: 1.02;
 }
 
+.thumbnail-row-container {
+  display: flex;
+  gap: 12px;
+}
+
 .video-category-container {
   padding: 0 24px;
   position: relative;

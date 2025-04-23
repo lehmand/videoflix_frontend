@@ -8,14 +8,19 @@ import { NavigationService } from '../navigation-service/navigation.service';
 })
 export class AuthService {
   BASE_URL = 'http://127.0.0.1:8000/auth/';
-  sessionEmail: string | null;
+  sessionEmail: string | null = null;
   isLoggedIn: boolean = false;
 
   constructor(
     private httpService: HttpService,
     private navigation: NavigationService
   ) {
-    this.sessionEmail = '';
+    const token = sessionStorage.getItem('token')
+    const email = sessionStorage.getItem('email')
+    if(email && token) {
+      this.isLoggedIn = true
+      this.sessionEmail = email
+    }
   }
 
   checkUser(email: string): Observable<any> {
