@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import videojs from 'video.js';
 
@@ -16,7 +16,7 @@ interface VideoSource {
   templateUrl: './video-player.component.html',
   styleUrl: './video-player.component.scss'
 })
-export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
+export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
   @ViewChild('videoElement', { static: true }) videoElement!: ElementRef;
   @Input() videoUrl: string = '';
   @Input() poster: string = '';
@@ -24,27 +24,30 @@ export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   
   player: any;
   currentQuality: string = '720p';
+  isPlayerInitialized: boolean = false;
   
   constructor() {}
   
   ngOnInit(): void {
-    console.log('VideoPlayerComponent initialized with sources:', this.videoSources);
     
-    // Wenn keine Quellen angegeben wurden, aber eine videoUrl existiert, erstelle eine Standardquelle
-    if (this.videoSources.length === 0 && this.videoUrl) {
-      this.videoSources = [{
-        src: this.videoUrl,
-        type: 'video/mp4',
-        label: 'Default',
-        quality: 'default'
-      }];
-    }
+  }
+  
+  ngOnChanges(changes: SimpleChanges): void {
     
-    // Überprüfe, ob mehrere Quellen vorhanden sind
-    if (this.videoSources.length > 1) {
-      console.log('Multiple video sources available. Quality selector should be visible.');
-    } else {
-      console.log('Only one video source. Quality selector will not be displayed.');
+    if (changes['videoSources']) {
+      if (this.isPlayerInitialized && changes['videoSources'].currentValue) {
+        
+        if (this.videoSources.length > 0) {
+          this.player.src({
+            src: this.videoSources[0].src,
+            type: this.videoSources[0].type
+          });
+          
+          if (this.videoSources.length > 1) {
+            this.setupQualitySelector();
+          }
+        }
+      }
     }
   }
   
@@ -53,14 +56,27 @@ export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   
   initializePlayer(): void {
-    // Standardkonfiguration für den Player
+    if (!this.videoElement || !this.videoElement.nativeElement) {
+      console.error('Video element not found!');
+      return;
+    }
+    
+    
+    let initialSource = this.videoUrl ? [{ src: this.videoUrl, type: 'video/mp4' }] : undefined;
+    
+    if (this.videoSources && this.videoSources.length > 0) {
+      initialSource = [this.videoSources[0]];
+    } else {
+      console.warn('No video sources available, using fallback videoUrl:', this.videoUrl);
+    }
+    
     const playerOptions = {
       controls: true,
       autoplay: false,
       preload: 'auto',
       fluid: true,
       poster: this.poster,
-      sources: [this.videoSources[0]], // Starte mit der ersten Quelle
+      sources: initialSource,
       controlBar: {
         children: [
           'playToggle',
@@ -74,123 +90,125 @@ export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     };
 
-    // Player initialisieren
-    this.player = videojs(this.videoElement.nativeElement, playerOptions);
     
-    // Warten, bis der Player bereit ist
-    this.player.ready(() => {
-      console.log('Player is ready. Setting up quality selector...');
+    try {
+      this.player = videojs(this.videoElement.nativeElement, playerOptions);
       
-      // Quality Selector nur hinzufügen, wenn mehrere Quellen vorhanden sind
-      if (this.videoSources.length > 1) {
-        this.addQualitySelector();
-      }
-    });
-  }
-  
-  addQualitySelector(): void {
-    // Qualitätsauswahl zum Player hinzufügen
-    console.log('Adding quality selector to player...');
-    
-    // Erstelle ein Container-Element für die Qualitätsauswahl
-    const qualityContainer = document.createElement('div');
-    qualityContainer.className = 'vjs-quality-selector vjs-menu-button vjs-menu-button-popup vjs-control vjs-button';
-    
-    // Erstelle den Button
-    const qualityButton = document.createElement('button');
-    qualityButton.className = 'vjs-menu-button vjs-menu-button-popup vjs-button';
-    qualityButton.type = 'button';
-    qualityButton.setAttribute('aria-haspopup', 'true');
-    qualityButton.setAttribute('aria-expanded', 'false');
-    qualityButton.title = 'Quality';
-    
-    // Erstelle das Span für die aktuelle Qualitätsstufe
-    const qualityLabel = document.createElement('span');
-    qualityLabel.className = 'vjs-quality-selector-label';
-    qualityLabel.textContent = this.currentQuality;
-    qualityButton.appendChild(qualityLabel);
-    
-    // Erstelle das Dropdown-Menü
-    const qualityMenu = document.createElement('div');
-    qualityMenu.className = 'vjs-menu';
-    
-    const qualityMenuContent = document.createElement('ul');
-    qualityMenuContent.className = 'vjs-menu-content';
-    
-    // Füge für jede Qualität einen Menüeintrag hinzu
-    this.videoSources.forEach(source => {
-      if (source.quality) {
-        const menuItem = document.createElement('li');
-        menuItem.className = 'vjs-menu-item';
+      this.player.ready(() => {
+        this.isPlayerInitialized = true;
         
-        // Markiere die aktuelle Qualität
-        if (source.quality === this.currentQuality) {
-          menuItem.classList.add('vjs-selected');
+        if (this.videoSources && this.videoSources.length > 1) {
+          this.setupQualitySelector();
+        } else {
+          console.warn('Only one source available, not setting up quality selector');
         }
-        
-        // Text und Daten des Menüeintrags
-        menuItem.textContent = source.label || source.quality;
-        menuItem.setAttribute('data-quality', source.quality);
-        
-        // Klick-Handler
-        menuItem.addEventListener('click', () => {
-          this.switchQuality(source);
-        });
-        
-        qualityMenuContent.appendChild(menuItem);
-      }
-    });
-    
-    // Füge alles zusammen
-    qualityMenu.appendChild(qualityMenuContent);
-    qualityContainer.appendChild(qualityButton);
-    qualityContainer.appendChild(qualityMenu);
-    
-    // Füge die Qualitätsauswahl zur Player-Control-Bar hinzu
-    if (this.player && this.player.controlBar) {
-      const controlBar = this.player.controlBar.el();
+      });
       
-      // Füge es vor dem Vollbildbutton ein
-      const fullscreenToggle = controlBar.querySelector('.vjs-fullscreen-control');
-      if (fullscreenToggle) {
-        controlBar.insertBefore(qualityContainer, fullscreenToggle);
-        console.log('Quality selector added successfully.');
-      } else {
-        // Fallback: Ans Ende der Control-Bar anfügen
-        controlBar.appendChild(qualityContainer);
-        console.log('Quality selector added at the end of control bar.');
-      }
-    } else {
-      console.error('Control bar not found!');
+      this.player.on('error', (error: any) => {
+        console.error('Video.js player error:', error);
+      });
+      
+    } catch (error) {
+      console.error('Error initializing Video.js player:', error);
     }
   }
   
-  switchQuality(source: VideoSource): void {
-    if (!this.player) return;
+  setupQualitySelector(): void {
+    if (!this.player) {
+      console.error('Player not initialized, cannot set up quality selector');
+      return;
+    }
     
-    console.log('Switching quality to:', source.quality);
     
-    // Aktuelle Zeit und Wiedergabestatus merken
+    const existingSelector = document.querySelector('.vjs-quality-selector');
+    if (existingSelector) {
+      existingSelector.remove();
+    }
+    
+    try {
+      const qualityContainer = document.createElement('div');
+      qualityContainer.className = 'vjs-quality-selector vjs-menu-button vjs-menu-button-popup vjs-control vjs-button';
+      
+      const qualityButton = document.createElement('button');
+      qualityButton.className = 'vjs-menu-button vjs-menu-button-popup vjs-button';
+      qualityButton.type = 'button';
+      qualityButton.title = 'Quality';
+      qualityButton.setAttribute('aria-haspopup', 'true');
+      qualityButton.setAttribute('aria-expanded', 'false');
+      
+      const qualityLabel = document.createElement('span');
+      qualityLabel.className = 'vjs-quality-selector-label';
+      qualityLabel.textContent = this.currentQuality;
+      qualityButton.appendChild(qualityLabel);
+      
+      const qualityMenu = document.createElement('div');
+      qualityMenu.className = 'vjs-menu';
+      
+      const qualityMenuContent = document.createElement('ul');
+      qualityMenuContent.className = 'vjs-menu-content';
+      
+      this.videoSources.forEach(source => {
+        if (source.quality) {
+          
+          const menuItem = document.createElement('li');
+          menuItem.className = 'vjs-menu-item';
+          menuItem.textContent = source.label || source.quality;
+          menuItem.setAttribute('data-quality', source.quality);
+          
+          if (source.quality === this.currentQuality) {
+            menuItem.classList.add('vjs-selected');
+          }
+          
+          menuItem.addEventListener('click', () => {
+            this.changeQuality(source);
+          });
+          
+          qualityMenuContent.appendChild(menuItem);
+        }
+      });
+      
+      qualityMenu.appendChild(qualityMenuContent);
+      qualityContainer.appendChild(qualityButton);
+      qualityContainer.appendChild(qualityMenu);
+      
+      const controlBar = this.player.controlBar.el();
+      
+      const fullscreenToggle = controlBar.querySelector('.vjs-fullscreen-control');
+      if (fullscreenToggle) {
+        controlBar.insertBefore(qualityContainer, fullscreenToggle);
+      } else {
+        controlBar.appendChild(qualityContainer);
+      }
+      
+    } catch (error) {
+      console.error('Error setting up quality selector:', error);
+    }
+  }
+  
+  changeQuality(source: VideoSource): void {
+    if (!this.player) {
+      console.error('Player not initialized, cannot change quality');
+      return;
+    }
+    
+    
     const currentTime = this.player.currentTime();
-    const isPaused = this.player.paused();
+    const wasPlaying = !this.player.paused();
     
-    // Qualität aktualisieren
     this.currentQuality = source.quality || 'default';
     
-    // Quelle wechseln
     this.player.src({
       src: source.src,
       type: source.type
     });
     
-    // Videostatus wiederherstellen
     this.player.ready(() => {
+      
       this.player.currentTime(currentTime);
-      if (!isPaused) {
+      if (wasPlaying) {
         this.player.play();
       }
       
-      // UI aktualisieren
       const qualityItems = document.querySelectorAll('.vjs-quality-selector .vjs-menu-item');
       qualityItems.forEach(item => {
         item.classList.remove('vjs-selected');
@@ -199,13 +217,11 @@ export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       });
       
-      // Label aktualisieren
       const qualityLabel = document.querySelector('.vjs-quality-selector-label');
       if (qualityLabel) {
         qualityLabel.textContent = this.currentQuality;
       }
       
-      console.log('Quality switched successfully.');
     });
   }
   

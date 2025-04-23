@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class MainPageComponent implements OnInit {
 
-  MEDIA_BASE_URL = 'http://127.0.0.1:8000/'
+  MEDIA_BASE_URL = 'http://127.0.0.1:8000'
   categories: Array<string> = ['Aviation', 'Places', 'Animals', 'Anime']
   allVideos: Array<any> = []
   selectedVideo: any = null
