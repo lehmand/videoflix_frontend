@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../services/data-service/data.service';
 import { Video } from '../models/video';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-page',
@@ -12,12 +13,13 @@ import { Video } from '../models/video';
 export class MainPageComponent implements OnInit {
 
   MEDIA_BASE_URL = 'http://127.0.0.1:8000/'
-  categories: Array<string> = ['New on Videoflix', 'Aviation', 'Places', 'Animals', 'Anime']
+  categories: Array<string> = ['Aviation', 'Places', 'Animals', 'Anime']
   allVideos: Array<any> = []
   selectedVideo: any = null
   
   constructor(
-    private dataService: DataService
+    private dataService: DataService,
+    private router: Router
   ){}
   
   ngOnInit(): void {
@@ -51,6 +53,10 @@ export class MainPageComponent implements OnInit {
       const uploaded = new Date(video.uploaded_at);
       return uploaded >= threeDaysAgo;
     });
+  }
+
+  playVideo(videoId: number): void {
+    this.router.navigate(['/video', videoId]);
   }
 
 }

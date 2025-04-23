@@ -1,0 +1,28 @@
+<main>
+  <div class="video-page-container">
+    <div *ngIf="loading" class="loading">
+      <p>Loading video...</p>
+    </div>
+    
+    <div *ngIf="error" class="error">
+      <p>{{ error }}</p>
+    </div>
+    
+    <div *ngIf="!loading && !error && video" class="video-content">
+      <div class="player-container">
+        <app-video-player 
+          [videoUrl]="getFullVideoUrl()" 
+          [poster]="getFullThumbnailUrl()"
+          [videoSources]="videoSources">
+        </app-video-player>
+      </div>
+      
+      <div class="video-info">
+        <h1>{{ video.title }}</h1>
+        <p class="description">{{ video.description }}</p>
+        <p class="genre">Genre: {{ video.genre }}</p>
+        <p class="upload-date">Uploaded: {{ video.uploaded_at | date:'medium' }}</p>
+      </div>
+    </div>
+  </div>
+</main>
