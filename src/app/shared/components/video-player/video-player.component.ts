@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import videojs from 'video.js';
+import 'videojs-contrib-quality-levels';
 
 interface VideoSource {
   src: string;
@@ -23,7 +24,7 @@ export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit, O
   @Input() videoSources: VideoSource[] = [];
   
   player: any;
-  currentQuality: string = '720p';
+  currentQuality: string = 'Original';
   isPlayerInitialized: boolean = false;
   
   constructor() {}
@@ -85,6 +86,7 @@ export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit, O
           'timeDivider',
           'durationDisplay',
           'progressControl',
+          'qualitySelector',
           'fullscreenToggle'
         ]
       }

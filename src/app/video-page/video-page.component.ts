@@ -25,6 +25,7 @@ export class VideoPageComponent implements OnInit {
   loading: boolean = true;
   error: string | null = null;
   videoSources: VideoSource[] = [];
+  currentQuality: string = '720p';
 
   constructor(
     private route: ActivatedRoute,
@@ -95,6 +96,37 @@ export class VideoPageComponent implements OnInit {
       }
     ];
   }
+
+selectQuality(quality: string): void {
+  console.log(`Selecting quality: ${quality}`);
+  this.currentQuality = quality;
+  
+  // Finde die passende Quelle
+  const selectedSource = this.videoSources.find(source => source.quality === quality);
+  if (!selectedSource) {
+    console.error(`No source found for quality: ${quality}`);
+    return;
+  }
+  
+  const videoElement = document.querySelector('video');
+  if (!videoElement) {
+    console.error('Video element not found in DOM');
+    return;
+  }
+  
+  const currentTime = videoElement.currentTime;
+  const wasPlaying = !videoElement.paused;
+  
+  videoElement.src = selectedSource.src;
+  
+  videoElement.onloadedmetadata = () => {
+    videoElement.currentTime = currentTime;
+    
+    if (wasPlaying) {
+      videoElement.play();
+    }
+  };
+}
 
   getFullVideoUrl(): string {
     if (!this.video) return '';
