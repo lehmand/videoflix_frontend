@@ -16,8 +16,6 @@ export class MainPageComponent implements OnInit, AfterViewInit {
 
   MEDIA_BASE_URL = 'http://127.0.0.1:8000'
   categories: Array<string> = ['Aviation', 'Places', 'Animals', 'Anime']
-  allVideos: Array<any> = []
-  
   
   
   constructor(
@@ -35,11 +33,11 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     this.checkViewport()
     this.dataService.getVideos().subscribe({
       next: videos => {
-        this.allVideos = videos.map(video => ({
+        this.videoService.allVideos = videos.map(video => ({
           ...video,
           thumbnail: this.MEDIA_BASE_URL + video.thumbnail
         }))
-        this.videoService.selectedVideo = this.videoService.isMobile ? null : this.allVideos[0]
+        this.videoService.selectedVideo = this.videoService.isMobile ? null : this.videoService.allVideos[0]
       },
       error: err => console.error(err)
     })
@@ -66,7 +64,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   }
 
   getVideosByCategory(cat: string): Video[] {
-    return this.allVideos.filter(v => v.genre === cat);
+    return this.videoService.allVideos.filter(v => v.genre === cat);
   }
 
   selectVideo(video: any) {
@@ -88,7 +86,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     const threeDaysAgo = new Date(now);
     threeDaysAgo.setDate(now.getDate() - 3);
   
-    return this.allVideos.filter(video => {
+    return this.videoService.allVideos.filter(video => {
       const uploaded = new Date(video.uploaded_at);
       return uploaded >= threeDaysAgo;
     });
