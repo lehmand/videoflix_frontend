@@ -17,7 +17,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   MEDIA_BASE_URL = 'http://127.0.0.1:8000'
   categories: Array<string> = ['Aviation', 'Places', 'Animals', 'Anime']
   allVideos: Array<any> = []
-  selectedVideo: any = null
+  
   
   
   constructor(
@@ -39,10 +39,14 @@ export class MainPageComponent implements OnInit, AfterViewInit {
           ...video,
           thumbnail: this.MEDIA_BASE_URL + video.thumbnail
         }))
-        this.selectedVideo = this.videoService.isMobile ? null : this.allVideos[0]
+        this.videoService.selectedVideo = this.videoService.isMobile ? null : this.allVideos[0]
       },
       error: err => console.error(err)
     })
+  }
+
+  shouldShowMobileInfo(): boolean {
+    return this.router.url === '/main';
   }
 
   checkViewport() {
@@ -66,7 +70,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   }
 
   selectVideo(video: any) {
-    this.selectedVideo = video;
+    this.videoService.selectedVideo = video;
     
     // Video neu laden, falls Element schon existiert
     if (this.previewVideo && this.previewVideo.nativeElement) {

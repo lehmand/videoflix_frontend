@@ -1,21 +1,21 @@
 <main>
-  <div class="mobile-video-info" *ngIf="videoService.isMobile && selectedVideo">
+  <div class="mobile-video-info" *ngIf="videoService.isMobile && videoService.selectedVideo">
     <div class="mobile-thumbnail-container">
-      <img [src]="selectedVideo.thumbnail" alt="Vorschaubild" class="mobile-thumbnail">
+      <img [src]="videoService.selectedVideo.thumbnail" alt="Vorschaubild" class="mobile-thumbnail">
     </div>
     <div class="mobile-video-text">
       <div class="mobile-video-description">
-        <h3>{{ selectedVideo.title }}</h3>
-        <p> {{ selectedVideo.description }} </p>
+        <h3>{{ videoService.selectedVideo.title }}</h3>
+        <p> {{ videoService.selectedVideo.description }} </p>
       </div>
       <div class="button-container">
-        <button (click)="playVideo(selectedVideo.id)" class="btn-main playbutton">
+        <button (click)="playVideo(videoService.selectedVideo.id)" class="btn-main playbutton">
           <img src="assets/icons/play_arrow.svg" alt="">Play
         </button>
       </div>
     </div>
   </div>
-  <div class="video-preview" *ngIf="!videoService.isMobile && selectedVideo">
+  <div class="video-preview" *ngIf="!videoService.isMobile && videoService.selectedVideo">
     <div class="preview-content">
       <div class="preview-thumbnail-container">
         <!-- <img
@@ -24,7 +24,7 @@
           class="preview-thumbnail"
         /> -->
         <video 
-        [src]="getVideoPreviewUrl(selectedVideo)"
+        [src]="getVideoPreviewUrl(videoService.selectedVideo)"
         class="preview-video"
         autoplay
         muted
@@ -33,10 +33,10 @@
       </video>
       </div>
       <div class="preview-text">
-        <h2>{{ selectedVideo.title }}</h2>
-        <p>{{ selectedVideo.description }}</p>
+        <h2>{{ videoService.selectedVideo.title }}</h2>
+        <p>{{ videoService.selectedVideo.description }}</p>
         <div class="button-container">
-          <button (click)="playVideo(selectedVideo.id)" class="btn-main playbutton"><img src="assets/icons/play_arrow.svg" alt="">Play</button>
+          <button (click)="playVideo(videoService.selectedVideo.id)" class="btn-main playbutton"><img src="assets/icons/play_arrow.svg" alt="">Play</button>
         </div>
       </div>
     </div>

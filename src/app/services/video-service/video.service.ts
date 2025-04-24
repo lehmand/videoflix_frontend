@@ -6,7 +6,8 @@ import { Injectable } from '@angular/core';
 export class VideoService {
 
   isPlaying: boolean = false;
-  isMobile: boolean = false
+  isMobile: boolean = false;
+  selectedVideo: any = null
 
   constructor() { }
 }
