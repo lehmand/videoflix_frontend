@@ -1,4 +1,4 @@
-<footer [ngClass]="{'footer-main-page': navigation.isOnMainPage}">
+<footer [ngClass]="{'footer-main-page': navigation.isOnMainPage}" *ngIf="!videoService.isPlaying">
     <ul>
         <li><a href="">Datenschutz</a></li>
         <li><a href="">Impressum</a></li>

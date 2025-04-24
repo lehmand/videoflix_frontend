@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import videojs from 'video.js';
+import { VideoService } from '../../../services/video-service/video.service';
 
 interface VideoSource {
   src: string;
@@ -32,17 +33,17 @@ export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   currentQuality: string = 'original';
   player: any;
 
-  constructor() {}
+  constructor(
+    private videoService: VideoService,
+  ) {}
 
   ngOnInit(): void {
-    console.log(
-      'VideoPlayerComponent initialized with sources:',
-      this.videoSources
-    );
+    
   }
 
   ngAfterViewInit(): void {
     this.initializePlayer();
+    this.videoService.isPlaying = true
   }
 
   initializePlayer(): void {
@@ -61,9 +62,6 @@ export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     }
 
-    console.log('Initializing player with sources:', this.videoSources);
-
-    // Player initialisieren
     this.player = videojs(this.videoElement.nativeElement, {
       controls: true,
       autoplay: false,
@@ -86,19 +84,14 @@ export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // Warte, bis der Player bereit ist
     this.player.ready(() => {
-      console.log('Player is ready!');
 
       if (this.videoSources.length > 1) {
-        // Direkter Ansatz: Manuelles Hinzufügen des Qualitätsauswahlmenüs
         this.addQualitySelector();
       }
     });
   }
 
   addQualitySelector(): void {
-    console.log('Adding quality selector with sources:', this.videoSources);
-
-    // Sicherstellen, dass der Player existiert
     if (!this.player || !this.player.controlBar) {
       console.error('Player or control bar not initialized');
       return;
@@ -113,9 +106,6 @@ export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
     try {
       const controlBar = this.player.controlBar.el();
-      console.log('Control bar found:', controlBar);
-
-      // Erstelle ein neues Div für die Qualitätssteuerung
       const qualityContainer = document.createElement('div');
       qualityContainer.className =
         'vjs-quality-dropdown vjs-menu-button vjs-menu-button-popup vjs-control vjs-button';
@@ -167,7 +157,6 @@ export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
       this.videoSources.forEach((source) => {
         if (!source.quality) return;
 
-        console.log(`Adding menu item for quality: ${source.quality}`);
 
         const menuItem = document.createElement('li');
         menuItem.className = `vjs-menu-item ${
@@ -178,7 +167,6 @@ export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
 
         // Klick-Handler hinzufügen
         menuItem.addEventListener('click', () => {
-          console.log(`Quality menu item clicked: ${source.quality}`);
           this.changeQuality(source);
           this.currentQuality = source.quality || '';
 
@@ -210,33 +198,10 @@ export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
         '.vjs-fullscreen-control'
       );
       if (fullscreenButton) {
-        console.log(
-          'Fullscreen button found, inserting quality selector before it'
-        );
         controlBar.insertBefore(qualityContainer, fullscreenButton);
       } else {
-        // Fallback: am Ende anhängen
-        console.log(
-          'Fullscreen button not found, appending quality selector to control bar'
-        );
         controlBar.appendChild(qualityContainer);
-      }
-
-      console.log('Quality selector added successfully');
-
-      // Debug: Überprüfe, ob das Element tatsächlich im DOM ist
-      setTimeout(() => {
-        const addedSelector = controlBar.querySelector('.vjs-quality-dropdown');
-        console.log('Is quality selector in DOM?', !!addedSelector);
-        if (addedSelector) {
-          console.log('Quality selector element:', addedSelector);
-          console.log(
-            'Is menu visible on hover?',
-            window.getComputedStyle(addedSelector.querySelector('.vjs-menu'))
-              .display
-          );
-        }
-      }, 1000);
+      }    
     } catch (error) {
       console.error('Error adding quality selector:', error);
     }

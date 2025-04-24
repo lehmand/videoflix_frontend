@@ -21,6 +21,16 @@ h1 {
   object-fit: cover;
   cursor: pointer;
   transition: all 500ms ease;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  margin: 0 4px;
+}
+
+.preview-video {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  position: relative;
 }
 
 .thumbnail:hover {
@@ -110,17 +120,34 @@ h2 {
 
 .scrollable-content {
   position: absolute;
-  top: 325px;
-  bottom: 64px;
-  left: 0;
-  right: 0;
-  overflow-y: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  width: 100%;
 }
 
 .scrollable-content::-webkit-scrollbar {
   display: none;
+}
+
+.scrollable-row {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+  }
 }
 
 .playbutton {
@@ -141,10 +168,84 @@ h2 {
   z-index: 5;
 }
 
+.mobile-video-info {
+  background-color: #141414;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  z-index: 11;
+}
+
+.mobile {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.mobile-thumbnail {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+
+.mobile-thumbnail-container {
+  position: relative;
+}
+
+.mobile-thumbnail-container::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px; // Höhe des Verlaufs anpassen
+  background: linear-gradient(to bottom, rgba(20, 20, 20, 0) 0%, #141414 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.mobile-thumbnail-container::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    #000000 -9.91%,
+    rgba(0, 0, 0, 0.55) 54.3%,
+    #000000 98.36%
+  );
+}
+
+.mobile-video-text {
+  color: white;
+  h3 {
+    font-size: 64px;
+  }
+}
+
+.mobile-video-text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-left: 16px;
+}
+
 @media (min-width: 768px) {
   .video-preview {
     position: fixed;
     display: block;
   }
-}
 
+  .scrollable-content {
+    top: 325px;
+    bottom: 64px;
+    left: 0;
+    right: 0;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

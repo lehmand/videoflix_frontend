@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth-service/auth.service';
 import { CommonModule } from '@angular/common';
 import { NavigationService } from '../../../services/navigation-service/navigation.service';
+import { VideoService } from '../../../services/video-service/video.service';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,8 @@ export class HeaderComponent {
 
   constructor(
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private videoService: VideoService,
   ){
     this.updateLogo()
   }
@@ -37,6 +39,7 @@ export class HeaderComponent {
   checkUserLogin(){
     const route = this.authService.isLoggedIn ? '/main' : '/login'
     this.router.navigate([route])
+    this.videoService.isPlaying = false
   }
 
 }

@@ -98,10 +98,8 @@ export class VideoPageComponent implements OnInit {
   }
 
 selectQuality(quality: string): void {
-  console.log(`Selecting quality: ${quality}`);
   this.currentQuality = quality;
   
-  // Finde die passende Quelle
   const selectedSource = this.videoSources.find(source => source.quality === quality);
   if (!selectedSource) {
     console.error(`No source found for quality: ${quality}`);
