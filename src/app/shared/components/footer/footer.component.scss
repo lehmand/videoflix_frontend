@@ -1,5 +1,5 @@
 footer {
-  display: flex;
+  display: none;
   justify-content: center;
   position: absolute;
   bottom: 48px;
@@ -22,5 +22,11 @@ ul {
     font-size: 18px;
     line-height: 100%;
     letter-spacing: 0%;
+  }
+}
+
+@media (min-width: 768px) {
+  footer {
+    display: flex;
   }
 }

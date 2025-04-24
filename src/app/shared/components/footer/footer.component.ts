@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { NavigationService } from '../../../services/navigation-service/navigation.service';
 import { CommonModule } from '@angular/common';
 
@@ -13,5 +13,4 @@ export class FooterComponent {
   constructor(
     public navigation: NavigationService,
   ){}
-
 }

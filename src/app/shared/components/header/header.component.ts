@@ -1,7 +1,8 @@
 import { Component, HostListener } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth-service/auth.service';
 import { CommonModule } from '@angular/common';
+import { NavigationService } from '../../../services/navigation-service/navigation.service';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,8 @@ export class HeaderComponent {
   logoSrc: string = 'assets/img/logo.svg'
 
   constructor(
-    public authService: AuthService
+    public authService: AuthService,
+    private router: Router
   ){
     this.updateLogo()
   }
@@ -25,11 +27,16 @@ export class HeaderComponent {
   }
 
   updateLogo() {
-    this.logoSrc = window.innerWidth < 500 ? 'assets/img/logo-mobile.svg' : 'assets/img/logo.svg'
+    this.logoSrc = window.innerWidth < 768 ? 'assets/img/logo-mobile.svg' : 'assets/img/logo.svg'
   }
 
   logout(){
     this.authService.logout()
+  }
+
+  checkUserLogin(){
+    const route = this.authService.isLoggedIn ? '/main' : '/login'
+    this.router.navigate([route])
   }
 
 }

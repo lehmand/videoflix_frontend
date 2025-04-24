@@ -1,6 +1,6 @@
 <header>
   <div class="logo-container">
-    <img [src]=logoSrc alt="" routerLink="">
+    <img [src]=logoSrc alt="" (click)="checkUserLogin()">
   </div>
   <div class="button-container">
     <button *ngIf="!authService.isLoggedIn" routerLink="/login" class="btn-main">Log in</button>
