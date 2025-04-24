@@ -18,7 +18,7 @@ export class HeaderComponent {
   constructor(
     public authService: AuthService,
     private router: Router,
-    private videoService: VideoService,
+    public videoService: VideoService,
   ){
     this.updateLogo()
   }
