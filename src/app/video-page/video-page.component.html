@@ -1,5 +1,5 @@
-<main>
-  <div class="video-page-container">
+<main [class.landscape-mode]="videoService.isLandscape">
+  <div class="video-page-container" [class.landscape-container]="videoService.isLandscape">
     <div *ngIf="loading" class="loading">
       <p>Loading video...</p>
     </div>
@@ -8,19 +8,18 @@
       <p>{{ error }}</p>
     </div>
     
-    <div *ngIf="!loading && !error && video" class="video-content">
-      <div class="player-container">
+    <div *ngIf="!loading && !error && video" class="video-content" [class.landscape-content]="videoService.isLandscape">
+      <div class="player-container" [class.landscape-player]="videoService.isLandscape">
         <app-video-player 
           [videoUrl]="getFullVideoUrl()" 
           [poster]="getFullThumbnailUrl()"
-          [videoSources]="videoSources">
+          [videoSources]="videoSources"
+          [requestFullscreen]="requestFullscreen">
         </app-video-player>
       </div>      
-      <div class="video-info">
+      <div class="video-info" *ngIf="!videoService.isLandscape">
         <h1>{{ video.title }}</h1>
         <p class="description">{{ video.description }}</p>
-        <p class="genre">Genre: {{ video.genre }}</p>
-        <p class="upload-date">Uploaded: {{ video.uploaded_at | date:'medium' }}</p>
       </div>
     </div>
   </div>

@@ -26,11 +26,11 @@ export class MainPageComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:resize', [])
   onResize(){
-    this.checkViewport()
+    this.videoService.checkViewport()
   }
   
   ngOnInit(): void {
-    this.checkViewport()
+    this.videoService.checkViewport()
     this.dataService.getVideos().subscribe({
       next: videos => {
         this.videoService.allVideos = videos.map(video => ({
@@ -45,16 +45,6 @@ export class MainPageComponent implements OnInit, AfterViewInit {
 
   shouldShowMobileInfo(): boolean {
     return this.router.url === '/main';
-  }
-
-  checkViewport() {
-    const isLandscape = window.innerWidth > window.innerHeight;
-    const randomIndex = Math.floor(Math.random() * this.videoService.allVideos.length)
-    this.videoService.isMobile = window.innerWidth < 992;
-    this.videoService.isLandscape = isLandscape && window.innerWidth < 992
-    if(window.innerWidth > 992 && !this.videoService.selectedVideo) {
-      this.videoService.selectedVideo = this.videoService.allVideos[randomIndex]
-    }
   }
 
   ngAfterViewInit() {
@@ -98,6 +88,10 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   }
 
   playVideo(videoId: number): void {
+    if (this.videoService.isLandscape || this.videoService.isMobile) {
+      this.videoService.requestFullscreenOnPlay = true;
+    }
+
     this.router.navigate(['/video', videoId]);
     this.videoService.isPlaying = true
   }

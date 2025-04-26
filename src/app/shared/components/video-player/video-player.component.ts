@@ -30,6 +30,7 @@ export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() videoUrl: string = '';
   @Input() poster: string = '';
   @Input() videoSources: VideoSource[] = [];
+  @Input() requestFullscreen: boolean = false;
   currentQuality: string = 'original';
   player: any;
 
@@ -44,6 +45,30 @@ export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     this.initializePlayer();
     this.videoService.isPlaying = true
+
+    if (this.requestFullscreen) {
+      setTimeout(() => {
+        this.tryEnterFullscreen();
+      }, 500);
+    }
+  }
+
+  tryEnterFullscreen(): void {
+    if (this.player && this.player.isReady_) {
+      try {
+        if (this.player.requestFullscreen) {
+          this.player.requestFullscreen();
+        } 
+        else if (this.player.el_ && this.player.el_.requestFullscreen) {
+          this.player.el_.requestFullscreen();
+        }
+        else if (this.videoElement.nativeElement.requestFullscreen) {
+          this.videoElement.nativeElement.requestFullscreen();
+        }
+      } catch (err) {
+        console.error('Fullscreen request failed:', err);
+      }
+    }
   }
 
   initializePlayer(): void {

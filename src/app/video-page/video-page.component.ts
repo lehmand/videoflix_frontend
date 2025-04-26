@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Video } from '../models/video';
 import { VideoPlayerComponent } from '../shared/components/video-player/video-player.component';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from '../services/data-service/data.service';
+import { VideoService } from '../services/video-service/video.service';
 
 interface VideoSource {
   src: string;
@@ -18,7 +19,7 @@ interface VideoSource {
   templateUrl: './video-page.component.html',
   styleUrl: './video-page.component.scss',
 })
-export class VideoPageComponent implements OnInit {
+export class VideoPageComponent implements OnInit, OnDestroy {
   videoId: number = 0;
   video: Video | null = null;
   MEDIA_BASE_URL = 'http://127.0.0.1:8000';
@@ -26,13 +27,23 @@ export class VideoPageComponent implements OnInit {
   error: string | null = null;
   videoSources: VideoSource[] = [];
   currentQuality: string = 'Original';
+  requestFullscreen: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
-    private dataService: DataService
+    private dataService: DataService,
+    public videoService: VideoService,
   ) {}
 
+  @HostListener('window:resize', [])
+  onResize() {
+    this.videoService.checkViewport();
+  }
+
   ngOnInit(): void {
+    this.videoService.checkViewport();
+
+    this.requestFullscreen = this.videoService.isLandscape;
     this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
@@ -40,6 +51,12 @@ export class VideoPageComponent implements OnInit {
         this.loadVideo();
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(err => console.error(err));
+    }
   }
 
   loadVideo(): void {
