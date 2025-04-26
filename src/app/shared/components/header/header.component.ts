@@ -40,7 +40,9 @@ export class HeaderComponent {
     const route = this.authService.isLoggedIn ? '/main' : '/login'
     this.router.navigate([route])
     this.videoService.isPlaying = false
-    this.videoService.selectedVideo = null;
+    if(this.videoService.isMobile) {
+      this.videoService.selectedVideo = null;
+    }
   }
 
 }

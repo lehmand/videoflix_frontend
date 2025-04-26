@@ -48,7 +48,13 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   }
 
   checkViewport() {
-    this.videoService.isMobile = window.innerWidth < 768;
+    const isLandscape = window.innerWidth > window.innerHeight;
+    const randomIndex = Math.floor(Math.random() * this.videoService.allVideos.length)
+    this.videoService.isMobile = window.innerWidth < 992;
+    this.videoService.isLandscape = isLandscape && window.innerWidth < 992
+    if(window.innerWidth > 992 && !this.videoService.selectedVideo) {
+      this.videoService.selectedVideo = this.videoService.allVideos[randomIndex]
+    }
   }
 
   ngAfterViewInit() {
@@ -70,7 +76,6 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   selectVideo(video: any) {
     this.videoService.selectedVideo = video;
     
-    // Video neu laden, falls Element schon existiert
     if (this.previewVideo && this.previewVideo.nativeElement) {
       setTimeout(() => {
         this.previewVideo.nativeElement.volume = 0;

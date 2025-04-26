@@ -7,8 +7,11 @@ export class VideoService {
 
   isPlaying: boolean = false;
   isMobile: boolean = false;
-  selectedVideo: any = null
-  allVideos: Array<any> = []
+  selectedVideo: any = null;
+  allVideos: Array<any> = [];
+  isLandscape: boolean = false;
 
   constructor() { }
+
+
 }

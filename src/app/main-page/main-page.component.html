@@ -1,7 +1,7 @@
 <main>
   <div class="mobile-video-info" *ngIf="videoService.isMobile && videoService.selectedVideo">
     <div class="mobile-thumbnail-container">
-      <img [src]="videoService.selectedVideo.thumbnail" alt="Vorschaubild" class="mobile-thumbnail">
+      <img [src]="videoService.selectedVideo.thumbnail" [class.landscape-mobile]="videoService.isLandscape" alt="Vorschaubild" class="mobile-thumbnail">
     </div>
     <div class="mobile-video-text">
       <div class="mobile-video-description">
@@ -42,7 +42,7 @@
     </div>
   </div>
 
-  <div class="scrollable-content" [class.mobile]="videoService.isMobile">
+  <div class="scrollable-content" [class.mobile]="videoService.isMobile" [class.landscape]="videoService.isLandscape">
     <div class="video-category-container" *ngIf="getRecentVideos().length">
       <h1>New on Videoflix</h1>
       <div class="thumbnail-row-container">
