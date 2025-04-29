@@ -22,7 +22,7 @@ interface VideoSource {
 export class VideoPageComponent implements OnInit, OnDestroy {
   videoId: number = 0;
   video: Video | null = null;
-  MEDIA_BASE_URL = 'http://127.0.0.1:8000';
+  MEDIA_BASE_URL = 'https://vid.daniel-lehmann.dev/';
   loading: boolean = true;
   error: string | null = null;
   videoSources: VideoSource[] = [];

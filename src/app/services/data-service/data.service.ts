@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class DataService {
 
-  private readonly BASE_URL = 'http://127.0.0.1:8000/videos/video-page/'
+  private readonly BASE_URL = 'https://vid.daniel-lehmann.dev/api/videos/video-page/'
 
   constructor(
     private httpService: HttpService,

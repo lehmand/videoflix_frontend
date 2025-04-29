@@ -14,7 +14,7 @@ import { VideoService } from '../services/video-service/video.service';
 export class MainPageComponent implements OnInit, AfterViewInit {
   @ViewChild('previewVideo') previewVideo!: ElementRef<HTMLVideoElement>;
 
-  MEDIA_BASE_URL = 'http://127.0.0.1:8000'
+  MEDIA_BASE_URL = 'https://vid.daniel-lehmann.dev/'
   categories: Array<string> = ['Aviation', 'Places', 'Animals', 'Anime']
   
   

@@ -7,7 +7,7 @@ import { NavigationService } from '../navigation-service/navigation.service';
   providedIn: 'root',
 })
 export class AuthService {
-  BASE_URL = 'http://127.0.0.1:8000/auth/';
+  BASE_URL = 'https://vid.daniel-lehmann.dev/api/auth/';
   sessionEmail: string | null = null;
   isLoggedIn: boolean = false;
 
