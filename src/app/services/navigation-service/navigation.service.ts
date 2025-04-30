@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 })
 export class NavigationService {
 
-  isOnMainPage: boolean = true
+  isOnMainPage: boolean = false
 
   constructor(private router: Router, private location: Location) { }
 
