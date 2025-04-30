@@ -4,10 +4,12 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth-service/auth.service';
 import { NavigationService } from '../services/navigation-service/navigation.service';
+import { ToastService } from '../services/toast-service/toast.service';
+import { ToastMessageComponent } from '../shared/components/toast-message/toast-message.component';
 
 @Component({
   selector: 'app-login-page',
-  imports: [RouterLink, ReactiveFormsModule, CommonModule],
+  imports: [RouterLink, ReactiveFormsModule, CommonModule, ToastMessageComponent],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss'
 })
@@ -15,7 +17,8 @@ export class LoginPageComponent {
 
   constructor(
     private authService: AuthService,
-    private navigation: NavigationService
+    private navigation: NavigationService,
+    public toastService: ToastService,
   ){}
 
   loginForm = new FormGroup({
@@ -31,7 +34,15 @@ export class LoginPageComponent {
         this.navigation.isOnMainPage = true
       },
       error: (error) => {
-        console.error('Something went wrong.')
+        console.error('Login failed', error)
+        // Zeige Fehlermeldung in Toast an
+        if (error.error && error.error.message) {
+          this.toastService.toastMessage = error.error.message;
+          this.toastService.showToastMessage = true;
+        } else {
+          this.toastService.toastMessage = 'Login fehlgeschlagen. Bitte versuche es erneut.';
+          this.toastService.showToastMessage = true;
+        }
       }
     })
   }
