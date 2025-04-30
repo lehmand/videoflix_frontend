@@ -15,5 +15,5 @@ export const routes: Routes = [
     { path: 'main', component: MainPageComponent },
     { path: 'video/:id', component: VideoPageComponent },
     { path: 'forgot-password', component: ForgotPageComponent },
-    { path: 'reset-password', component: ResetPageComponent },
+    { path: 'reset/:uidb64/:token', component: ResetPageComponent },
 ];

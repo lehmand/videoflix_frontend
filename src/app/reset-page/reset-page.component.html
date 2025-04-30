@@ -2,19 +2,34 @@
   <img src="assets/img/login-page-background.jpeg" alt="">
   <div class="card">
     <h1>Reset Password</h1>
-    <form>
+    <form [formGroup]="resetForm" (ngSubmit)="resetPassword()">
       <p>Create a new password for your <span>Videoflix</span> account.</p>
+      
       <div class="form-field">
-        <input class="input-main" type="password" id="password" placeholder="">
+        <input formControlName="password" class="input-main" type="password" id="password" placeholder="">
         <label for="password" class="label-main">Enter a password</label>
+        <p class="error" *ngIf="passwordControl?.invalid && passwordControl?.touched">
+          <span *ngIf="passwordControl?.errors?.['required']">Password is required.</span>
+          <span *ngIf="passwordControl?.errors?.['minlength']">Password must be at least 6 characters long.</span>
+        </p>
       </div>
+      
       <div class="form-field">
-        <input type="password" class="input-main" id="confirm" placeholder="">
+        <input formControlName="confirmPassword" class="input-main" type="password" id="confirm" placeholder="">
         <label for="confirm" class="label-main">Confirm Password</label>
+        <p class="error" *ngIf="confirmPasswordControl?.invalid && confirmPasswordControl?.touched">
+          <span *ngIf="confirmPasswordControl?.errors?.['required']">Please confirm your password.</span>
+        </p>
+        <p class="error" *ngIf="hasPasswordMismatch()">Passwords do not match.</p>
       </div>
+      
       <div class="button-container">
-        <button class="btn-main">Reset my password</button>
+        <button class="btn-main" type="submit" [disabled]="resetForm.invalid || isLoading">
+          <span *ngIf="!isLoading">Reset my password</span>
+          <span *ngIf="isLoading">Processing...</span>
+        </button>
       </div>
     </form>
   </div>
+  <app-toast-message *ngIf="toastService.showToastMessage"></app-toast-message>
 </main>
