@@ -40,7 +40,7 @@ export class LoginPageComponent {
           this.toastService.toastMessage = error.error.message;
           this.toastService.showToastMessage = true;
         } else {
-          this.toastService.toastMessage = 'Login fehlgeschlagen. Bitte versuche es erneut.';
+          this.toastService.toastMessage = 'Login failed. Please try again.';
           this.toastService.showToastMessage = true;
         }
       }

@@ -51,7 +51,7 @@ export class ResetPageComponent implements OnInit {
       
       if (!this.uidb64 || !this.token) {
         this.isTokenValid = false;
-        this.toastService.toastMessage = 'Ungültiger Reset-Link. Bitte fordere einen neuen Link an.';
+        this.toastService.toastMessage = 'Invalid reset-link. Please request a new.';
         this.toastService.showToastMessage = true;
         timer(3000).subscribe(() => {
           this.router.navigate(['/forgot-password']);
@@ -76,7 +76,7 @@ export class ResetPageComponent implements OnInit {
     this.http.post(resetUrl, resetData).subscribe({
       next: (response: any) => {
         this.isLoading = false;
-        this.toastService.toastMessage = 'Dein Passwort wurde erfolgreich zurückgesetzt. Du kannst dich jetzt anmelden.';
+        this.toastService.toastMessage = 'Password reset successful. You can login now.';
         this.toastService.showToastMessage = true;
         timer(3000).subscribe(() => {
           this.router.navigate(['/login']);
@@ -88,7 +88,7 @@ export class ResetPageComponent implements OnInit {
         if (error.error && error.error.message) {
           this.toastService.toastMessage = error.error.message;
         } else {
-          this.toastService.toastMessage = 'Passwort-Reset fehlgeschlagen. Bitte versuche es erneut.';
+          this.toastService.toastMessage = 'Password reset failed. Please try again.';
         }
         this.toastService.showToastMessage = true;
       }

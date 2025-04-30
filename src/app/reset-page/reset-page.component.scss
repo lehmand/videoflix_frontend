@@ -32,11 +32,6 @@ p {
   text-align: center;
 }
 
-span {
-  color: #2E3EDF;
-  font-weight: 500;
-}
-
 img {
   position: absolute;
   top: 0;
@@ -75,16 +70,6 @@ form {
   width: 100%;
 }
 
-.button-container {
-  margin-top: 16px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-button {
-  min-width: 200px;
-}
 
 .error {
   color: #ff3333;
