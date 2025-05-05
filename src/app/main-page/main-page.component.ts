@@ -15,7 +15,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   @ViewChild('previewVideo') previewVideo!: ElementRef<HTMLVideoElement>;
 
   MEDIA_BASE_URL = 'https://vid.daniel-lehmann.dev/'
-  categories: Array<string> = ['Aviation', 'Places', 'Animals', 'Anime']
+  categories: Array<string> = ['Drone', 'Motivation', 'Animals', 'Technology']
   
   
   constructor(
@@ -77,14 +77,11 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   }
 
   getRecentVideos(): any[] {
-    const now = new Date();
-    const threeDaysAgo = new Date(now);
-    threeDaysAgo.setDate(now.getDate() - 3);
-  
-    return this.videoService.allVideos.filter(video => {
-      const uploaded = new Date(video.uploaded_at);
-      return uploaded >= threeDaysAgo;
+    const sortedVideos = [...this.videoService.allVideos].sort((a, b) => {
+      return new Date(b.uploaded_at).getTime() - new Date(a.uploaded_at).getTime();
     });
+    
+    return sortedVideos.slice(0, 6);
   }
 
   playVideo(videoId: number): void {

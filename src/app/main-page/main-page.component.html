@@ -45,30 +45,34 @@
   <div class="scrollable-content" [class.mobile]="videoService.isMobile" [class.landscape]="videoService.isLandscape">
     <div class="video-category-container" *ngIf="getRecentVideos().length">
       <h1>New on Videoflix</h1>
-      <div class="thumbnail-row-container">
+      <div class="thumbnail-row-container new">
         <div class="scrollable-row">
-          <img
-            *ngFor="let video of getRecentVideos()"
-            [src]="video.thumbnail"
-            [alt]="video.title"
-            class="thumbnail"
-            (click)="selectVideo(video)"
-          />
-        </div>
-      </div>
-    </div>
-    <div class="video-category-container" *ngFor="let cat of categories">
-      <h1>{{ cat }}</h1>
-      <div class="thumbnail-row-container">
-        <ng-container *ngIf="getVideosByCategory(cat).length; else noVideos">
-          <div class="scrollable-row">
+          <div class="thumbnail-item" *ngFor="let video of getRecentVideos()">
+            <h4 class="thumbnail-title"> {{ video.title }} </h4>
             <img
-              *ngFor="let video of getVideosByCategory(cat)"
               [src]="video.thumbnail"
               [alt]="video.title"
               class="thumbnail"
               (click)="selectVideo(video)"
             />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="video-category-container" *ngFor="let cat of categories">
+      <h1 class="video-cat">{{ cat }}</h1>
+      <div class="thumbnail-row-container">
+        <ng-container *ngIf="getVideosByCategory(cat).length; else noVideos">
+          <div class="scrollable-row">
+            <div class="thumbnail-item" *ngFor="let video of getVideosByCategory(cat)">
+              <h4 class="thumbnail-title"> {{ video.title }} </h4>
+              <img                
+                [src]="video.thumbnail"
+                [alt]="video.title"
+                class="thumbnail"
+                (click)="selectVideo(video)"
+              />
+            </div>
           </div>
         </ng-container>
         <ng-template #noVideos>

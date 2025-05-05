@@ -15,6 +15,38 @@ h1 {
   font-size: 20px;
 }
 
+h4 {
+  padding-left: 4px;
+}
+
+.video-cat {
+  padding-left: 4px;
+}
+
+.new {
+  padding-left: 4px;
+}
+
+.thumbnail-item {
+  position: relative;
+  cursor: pointer;
+}
+
+.thumbnail-title {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  color: white;
+  background-color: #2E3EDF;
+  border-radius: 8px;
+  padding: 2px 4px;
+  max-width: 150px;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .thumbnail {
   width: 150px;
   height: 80px;
