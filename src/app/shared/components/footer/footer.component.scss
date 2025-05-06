@@ -1,5 +1,5 @@
 footer {
-  display: none;
+  display: flex;
   justify-content: center;
   position: fixed;
   bottom: 32px;
@@ -29,5 +29,9 @@ ul {
 @media (min-width: 768px) {
   footer {
     display: flex;
+  }
+
+  .footer-main-page {
+    justify-content: center;
   }
 }

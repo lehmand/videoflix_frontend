@@ -18,11 +18,10 @@ export class VideoService {
 
   checkViewport() {
     const isLandscape = window.innerWidth > window.innerHeight;
-    const randomIndex = Math.floor(Math.random() * this.allVideos.length)
     this.isMobile = window.innerWidth < 992;
     this.isLandscape = isLandscape && window.innerWidth < 992
     if(window.innerWidth > 992 && !this.selectedVideo) {
-      this.selectedVideo = this.allVideos[randomIndex]
+      this.selectedVideo = this.allVideos[0]
     }
   }
 }

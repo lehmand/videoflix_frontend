@@ -1,5 +1,5 @@
 main {
-  padding: 64px;
+  padding: 24px;
   background-color: #141414;
   color: white;
 }
@@ -8,4 +8,10 @@ h1,
 h2,
 h3 {
   margin: 8px 0;
+}
+
+@media (min-width: 768px) {
+  main {
+    padding: 64px;
+  }
 }

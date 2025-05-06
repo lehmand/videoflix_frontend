@@ -1,6 +1,12 @@
 main {
-  padding: 64px;
+  padding: 24px;
   background-color: #141414;
   color: white;
-  height: 100vh;
+}
+
+@media (min-width: 768px) {
+  main {
+    padding: 64px;
+    height: 100vh;
+  }
 }

@@ -9,10 +9,27 @@ header {
   right: 0;
 }
 
+header.special-page {
+  background-color: #141414;
+}
+
 .back {
   cursor: pointer;
 }
 
+.login-btn {
+  font-size: 14px;
+  padding: 4px 16px;
+  box-sizing: border-box;
+}
+
 .logo-container {
   cursor: pointer;
+}
+
+@media (min-width: 360px) {
+  .login-btn {
+    font-size: 18px;
+    padding: 12px 24px;
+  }
 }
