@@ -4,6 +4,7 @@ import { DataService } from '../services/data-service/data.service';
 import { Video } from '../models/video';
 import { Router } from '@angular/router';
 import { VideoService } from '../services/video-service/video.service';
+import { NavigationService } from '../services/navigation-service/navigation.service';
 
 @Component({
   selector: 'app-main-page',
@@ -21,15 +22,22 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   constructor(
     private dataService: DataService,
     private router: Router,
-    public videoService: VideoService
+    public videoService: VideoService,
+    private navigation: NavigationService,
   ){}
 
   @HostListener('window:resize', [])
   onResize(){
     this.videoService.checkViewport()
+
+    if (this.previewVideo && this.previewVideo.nativeElement) {
+      this.previewVideo.nativeElement.volume = 0;
+      this.previewVideo.nativeElement.muted = true;
+    }
   }
   
   ngOnInit(): void {
+    this.navigation.isOnMainPage = true;
     this.videoService.checkViewport()
     this.dataService.getVideos().subscribe({
       next: videos => {

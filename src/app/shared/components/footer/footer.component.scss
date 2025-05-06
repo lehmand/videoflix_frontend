@@ -9,7 +9,7 @@ footer {
 }
 
 .footer-main-page {
-  justify-content: flex-end;
+  justify-content: center;
   right: 24px;
   bottom: 12px
 }
@@ -29,9 +29,11 @@ ul {
 @media (min-width: 768px) {
   footer {
     display: flex;
-  }
+  }  
+}
 
+@media (min-width: 992px) {
   .footer-main-page {
-    justify-content: center;
+    justify-content: flex-end;
   }
 }
