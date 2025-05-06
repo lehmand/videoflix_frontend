@@ -35,7 +35,7 @@ export class LoginPageComponent {
       error: (error) => {
         console.error('Login failed', error)
         if (error.error && error.error.message) {
-          this.toastService.show(error.error.message)
+          this.toastService.show('Login failed. Please check your credentials.')
         } else {
           this.toastService.show('Login failed. Please try again.')
         }
