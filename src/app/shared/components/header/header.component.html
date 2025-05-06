@@ -3,7 +3,12 @@
     <img [src]=logoSrc alt="" (click)="checkUserLogin()">
   </div>
   <div class="button-container">
-    <button *ngIf="!authService.isLoggedIn" routerLink="/login" class="btn-main">Log in</button>
-    <button *ngIf="authService.isLoggedIn" class="btn-main btn-logout" (click)="logout()"><img src="assets/icons/logout.svg" alt="">Logout</button>
+     <img src="assets/icons/arrow_back.svg" class="back" alt="Back" (click)="goBack()" *ngIf="isSpecialPage">
+    <ng-container *ngIf="!isSpecialPage">
+      <button *ngIf="!authService.isLoggedIn" routerLink="/login" class="btn-main">Log in</button>
+      <button *ngIf="authService.isLoggedIn" class="btn-main btn-logout" (click)="logout()">
+        <img src="assets/icons/logout.svg" alt="">Logout
+      </button>
+    </ng-container>
   </div>
 </header>

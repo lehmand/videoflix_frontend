@@ -1,10 +1,11 @@
 footer {
   display: none;
   justify-content: center;
-  position: absolute;
+  position: fixed;
   bottom: 32px;
   left: 0;
   right: 0;
+  z-index: 5;
 }
 
 .footer-main-page {
