@@ -29,7 +29,6 @@ export class LoginPageComponent {
   login(){
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
-        console.log('Login successfull', response)
         this.navigation.navigateTo('main')
         this.navigation.isOnMainPage = true
       },

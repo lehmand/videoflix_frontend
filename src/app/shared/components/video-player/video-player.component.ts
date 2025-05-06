@@ -235,19 +235,14 @@ export class VideoPlayerComponent implements OnInit, OnDestroy, AfterViewInit {
   changeQuality(source: VideoSource): void {
     if (!this.player) return;
 
-    console.log('Changing quality to:', source);
-
-    // Speichere aktuelle Wiedergabeposition und Status
     const currentTime = this.player.currentTime();
     const wasPlaying = !this.player.paused();
 
-    // Setze neue Quelle
     this.player.src({
       src: source.src,
       type: source.type,
     });
 
-    // Stelle Position und Wiedergabestatus wieder her
     this.player.one('loadedmetadata', () => {
       this.player.currentTime(currentTime);
 

@@ -3,10 +3,12 @@ import { AuthService } from '../services/auth-service/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NavigationService } from '../services/navigation-service/navigation.service';
+import { ToastService } from '../services/toast-service/toast.service';
+import { ToastMessageComponent } from '../shared/components/toast-message/toast-message.component';
 
 @Component({
   selector: 'app-signup-page',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ToastMessageComponent],
   templateUrl: './signup-page.component.html',
   styleUrl: './signup-page.component.scss'
 })
@@ -14,7 +16,8 @@ export class SignupPageComponent {
 
   constructor(
     private authService: AuthService,
-    private navigator: NavigationService
+    private navigator: NavigationService,
+    public toastService: ToastService
   ){}
 
   signUpForm = new FormGroup({
@@ -26,11 +29,23 @@ export class SignupPageComponent {
   register() {
     this.authService.registration(this.signUpForm.value).subscribe({
       next: (response) => {
-        console.log('Registration success', response)
         this.navigator.navigateTo('login')
       },
       error: (error) => {
         console.error('Registration failed', error)
+        
+        if(error.error && error.error.email) {
+          if(error.error.email[0].includes('use')) {
+            this.toastService.toastMessage = 'This email is already in use. Please choose a different email.';
+            this.toastService.showToastMessage = true;
+          } else {
+            this.toastService.toastMessage = 'Invalid email address. Please try again.';
+            this.toastService.showToastMessage = true;
+          }
+        } else {
+          this.toastService.toastMessage = 'Registration failed. Please try again.';
+          this.toastService.showToastMessage = true;
+        }
         return
       }
     })
