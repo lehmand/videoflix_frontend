@@ -26,12 +26,7 @@ export class ForgotPageComponent {
   resetPassword(){
     this.authService.reset({ email: this.email }).subscribe({
       next: (response) => {
-        this.toastService.showToastMessage = true;
-        this.toastService.toastMessage = 'Password reset link has been sent to your email.'
-        setTimeout(() => {
-          this.toastService.showToastMessage = false
-          this.navigation.navigateTo('login')
-        }, 2000);
+        this.toastService.show('Password reset link has been sent to your email.')
       },
       error: (error) => {
         console.log('Password reset failed.')

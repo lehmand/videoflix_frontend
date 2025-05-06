@@ -34,18 +34,11 @@ export class SignupPageComponent {
       error: (error) => {
         console.error('Registration failed', error)
         
-        if(error.error && error.error.email) {
-          if(error.error.email[0].includes('use')) {
-            this.toastService.toastMessage = 'This email is already in use. Please choose a different email.';
-            this.toastService.showToastMessage = true;
-          } else {
-            this.toastService.toastMessage = 'Invalid email address. Please try again.';
-            this.toastService.showToastMessage = true;
-          }
-        } else {
-          this.toastService.toastMessage = 'Registration failed. Please try again.';
-          this.toastService.showToastMessage = true;
-        }
+        this.toastService.toastMessage = 'Registration failed. Please check your information and try again.';
+        this.toastService.showToastMessage = true;
+        setTimeout(() => {
+          this.toastService.showToastMessage = false
+        }, 2000);
         return
       }
     })

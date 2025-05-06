@@ -54,18 +54,15 @@ export class LandingPageComponent implements OnInit {
       },
       error: err => {
         console.error('Request‑Error:', err);
-        this.toastService.toastMessage = 'An error occurred. Please try again later.';
-        this.toastService.showToastMessage = true;
+        this.toastService.show('An error occurred. Please try again later.')
       }
     });
   }
 
   private showToastAndRedirect(message: string, path: string) {
-    this.toastService.toastMessage = message;
-    this.toastService.showToastMessage = true;
+    this.toastService.show(message)
     timer(2000).subscribe(() => {
       this.router.navigate([path]);
-      this.toastService.showToastMessage = false;
     });
   }
 }

@@ -34,13 +34,10 @@ export class LoginPageComponent {
       },
       error: (error) => {
         console.error('Login failed', error)
-        // Zeige Fehlermeldung in Toast an
         if (error.error && error.error.message) {
-          this.toastService.toastMessage = error.error.message;
-          this.toastService.showToastMessage = true;
+          this.toastService.show(error.error.message)
         } else {
-          this.toastService.toastMessage = 'Login failed. Please try again.';
-          this.toastService.showToastMessage = true;
+          this.toastService.show('Login failed. Please try again.')
         }
       }
     })
