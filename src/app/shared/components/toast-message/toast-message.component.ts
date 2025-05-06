@@ -19,6 +19,11 @@ export class ToastMessageComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkViewport()
+    document.body.classList.add('toast-showing');
+  }
+
+  ngOnDestroy(): void {
+    document.body.classList.remove('toast-showing');
   }
 
   @HostListener('window:resize')

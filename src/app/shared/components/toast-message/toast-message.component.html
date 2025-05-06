@@ -6,11 +6,7 @@
         <img src="assets/icons/close_small.svg" alt="close-button">
       </div>
     </div>
-    <div class="error-button-container" (click)="close()">
+    <div class="error-button-container" *ngIf="!isMobile" (click)="close()">
       <button class="btn-secondary">Close</button>
-    </div>
-    <div class="divider" *ngIf="!isMobile"></div>
-    <div class="close-button-container" *ngIf="!isMobile" (click)="close()">
-      <img src="assets/icons/close_small.svg" alt="close-button">
     </div>
 </div>
