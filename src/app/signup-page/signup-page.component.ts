@@ -29,14 +29,13 @@ export class SignupPageComponent {
   register() {
     this.authService.registration(this.signUpForm.value).subscribe({
       next: (response) => {
-        this.navigator.navigateTo('login')
+        this.toastService.show('Registration successful! An activation link has been sent to your email address. Please check your inbox.')
+        setTimeout(() => {
+          this.navigator.navigateTo('login')
+        }, 5000);
       },
       error: (error) => {
-        console.error('Registration failed', error)
         this.toastService.show('Registration failed. Please check your information and try again.')
-        setTimeout(() => {
-          this.toastService.showToastMessage = false
-        }, 2000);
         return
       }
     })
