@@ -49,6 +49,8 @@ export class MainPageComponent implements OnInit, AfterViewInit {
       },
       error: err => console.error(err)
     })
+    this.previewVideo.nativeElement.volume = 0;
+    this.previewVideo.nativeElement.muted = true;
   }
 
   shouldShowMobileInfo(): boolean {
@@ -59,6 +61,11 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     if (this.previewVideo && this.previewVideo.nativeElement) {
       this.previewVideo.nativeElement.volume = 0;
       this.previewVideo.nativeElement.muted = true;
+
+      this.previewVideo.nativeElement.addEventListener('loadeddata', () => {
+        this.previewVideo.nativeElement.volume = 0;
+        this.previewVideo.nativeElement.muted = true;
+      });
     }
   }
 

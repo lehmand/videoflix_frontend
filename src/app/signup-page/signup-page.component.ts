@@ -33,9 +33,7 @@ export class SignupPageComponent {
       },
       error: (error) => {
         console.error('Registration failed', error)
-        
-        this.toastService.toastMessage = 'Registration failed. Please check your information and try again.';
-        this.toastService.showToastMessage = true;
+        this.toastService.show('Registration failed. Please check your information and try again.')
         setTimeout(() => {
           this.toastService.showToastMessage = false
         }, 2000);
