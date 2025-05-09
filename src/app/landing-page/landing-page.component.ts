@@ -46,9 +46,7 @@ export class LandingPageComponent implements OnInit {
   
     this.authService.checkUser(emailInput).subscribe({
       next: resp => {
-        if(resp.ok) {
-          this.toastService.setState(true);
-        }
+        this.toastService.setState(resp.ok);
         const message = resp.ok
           ? 'Email already exists. Redirecting to log in.'
           : 'Email not found. Redirecting to sign up.';
@@ -57,6 +55,7 @@ export class LandingPageComponent implements OnInit {
       },
       error: err => {
         console.error('Request‑Error:', err);
+        this.toastService.setState(false);
         this.toastService.show('An error occurred. Please try again later.')
       }
     });
