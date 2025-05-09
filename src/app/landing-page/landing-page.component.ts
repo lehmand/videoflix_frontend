@@ -46,6 +46,9 @@ export class LandingPageComponent implements OnInit {
   
     this.authService.checkUser(emailInput).subscribe({
       next: resp => {
+        if(resp.ok) {
+          this.toastService.setState(true);
+        }
         const message = resp.ok
           ? 'Email already exists. Redirecting to log in.'
           : 'Email not found. Redirecting to sign up.';

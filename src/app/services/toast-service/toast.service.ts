@@ -9,6 +9,7 @@ export class ToastService {
 
   public showToastMessage: boolean = false;
   public toastMessage: string = '';
+  public isSuccessful: boolean = false;
 
   show(message: string, duration: number = 2000) {
     this.toastMessage = message;
@@ -17,5 +18,13 @@ export class ToastService {
     setTimeout(() => {
       this.showToastMessage = false;
     }, duration);
+  }
+
+  setState(state: boolean) {
+    this.isSuccessful = state;
+
+    setTimeout(() => {
+      this.isSuccessful = false;
+    }, 5000);
   }
 }

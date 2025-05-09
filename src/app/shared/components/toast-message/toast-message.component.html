@@ -1,4 +1,4 @@
-<div class="toast-container">
+<div class="toast-container" [ngClass]="{'success': toastService.isSuccessful}">
     <div class="error-container">
       <img src="assets/icons/exclamation.svg" alt="exclamation-mark-icon">
       <p class="error-message"> {{ toastService.toastMessage }} </p>
