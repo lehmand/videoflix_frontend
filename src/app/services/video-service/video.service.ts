@@ -23,5 +23,9 @@ export class VideoService {
     if(window.innerWidth > 992 && !this.selectedVideo) {
       this.selectedVideo = this.allVideos[0]
     }
+
+    if(window.innerWidth < 992 && this.selectedVideo) {
+      this.selectedVideo = null;
+    }
   }
 }

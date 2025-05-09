@@ -57,7 +57,7 @@ export class HeaderComponent implements OnInit {
   }
 
   checkUserLogin(){
-    const route = this.authService.isLoggedIn ? '/main' : '/login'
+    const route = this.authService.isLoggedIn ? '/main' : ''
     this.router.navigate([route])
     this.videoService.isPlaying = false
     if(this.videoService.isMobile) {
