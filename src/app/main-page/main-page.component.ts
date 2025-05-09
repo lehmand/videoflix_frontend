@@ -12,6 +12,8 @@ import { Video } from '../models/video';
 import { Router } from '@angular/router';
 import { VideoService } from '../services/video-service/video.service';
 import { NavigationService } from '../services/navigation-service/navigation.service';
+import { AuthService } from '../services/auth-service/auth.service';
+import { ToastService } from '../services/toast-service/toast.service';
 
 @Component({
   selector: 'app-main-page',
@@ -29,7 +31,9 @@ export class MainPageComponent implements OnInit, AfterViewInit {
     private dataService: DataService,
     private router: Router,
     public videoService: VideoService,
-    private navigation: NavigationService
+    private navigation: NavigationService,
+    private authService: AuthService,
+    private toastService: ToastService,
   ) {}
 
   @HostListener('window:resize', [])
@@ -44,6 +48,13 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+
+    if (!this.authService.isLoggedIn) {
+      this.toastService.show('Please log in to access this page', 3000, false);
+      this.router.navigate(['/login']);
+      return;
+    }
+
     this.navigation.isOnMainPage = true;
     this.videoService.checkViewport();
     this.dataService.getVideos().subscribe({

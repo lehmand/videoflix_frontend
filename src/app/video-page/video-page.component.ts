@@ -2,9 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Video } from '../models/video';
 import { VideoPlayerComponent } from '../shared/components/video-player/video-player.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from '../services/data-service/data.service';
 import { VideoService } from '../services/video-service/video.service';
+import { AuthService } from '../services/auth-service/auth.service';
+import { ToastService } from '../services/toast-service/toast.service';
 
 interface VideoSource {
   src: string;
@@ -31,8 +33,11 @@ export class VideoPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private dataService: DataService,
     public videoService: VideoService,
+    private authService: AuthService,
+    private toastService: ToastService,
   ) {}
 
   @HostListener('window:resize', [])
@@ -41,6 +46,13 @@ export class VideoPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    if (!this.authService.isLoggedIn) {
+      this.toastService.show('Please log in to access this video', 3000, false);
+      this.router.navigate(['/login']);
+      return;
+    }
+
     this.videoService.checkViewport();
 
     this.requestFullscreen = this.videoService.isLandscape;

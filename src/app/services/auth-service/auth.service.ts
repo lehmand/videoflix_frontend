@@ -15,11 +15,19 @@ export class AuthService {
     private httpService: HttpService,
     private navigation: NavigationService
   ) {
+    this.checkAuthStatus();
+    
+  }
+
+  checkAuthStatus() {
     const token = sessionStorage.getItem('token')
     const email = sessionStorage.getItem('email')
     if(email && token) {
       this.isLoggedIn = true
       this.sessionEmail = email
+    } else {
+      this.isLoggedIn = false;
+      this.sessionEmail = null;
     }
   }
 
@@ -54,6 +62,9 @@ export class AuthService {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('email');
     sessionStorage.removeItem('user_id');
+    localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    localStorage.removeItem('user_id');
     this.navigation.navigateTo('login');
     this.isLoggedIn = false;
   }

@@ -20,4 +20,5 @@ export const routes: Routes = [
     { path: 'reset/:uidb64/:token', component: ResetPageComponent },
     { path: 'privacy', component: PrivacyPageComponent },
     { path: 'imprint', component: ImprintComponent },
+    { path: '**', redirectTo: ''},
 ];
