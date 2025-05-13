@@ -27,8 +27,10 @@
         [src]="getVideoPreviewUrl(videoService.selectedVideo)"
         class="preview-video"
         autoplay
-        muted
+        muted="muted"
+        defaultMuted
         loop
+        playsinline
         #previewVideo>
       </video>
       </div>

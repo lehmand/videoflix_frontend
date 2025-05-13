@@ -6,6 +6,7 @@ import {
   HostListener,
   OnInit,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { DataService } from '../services/data-service/data.service';
 import { Video } from '../models/video';
@@ -20,12 +21,15 @@ import { ToastService } from '../services/toast-service/toast.service';
   imports: [CommonModule],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class MainPageComponent implements OnInit, AfterViewInit {
   @ViewChild('previewVideo') previewVideo!: ElementRef<HTMLVideoElement>;
 
   MEDIA_BASE_URL = 'https://vid.daniel-lehmann.dev/';
   categories: Array<string> = ['Drone', 'Motivation', 'Animals', 'Technology'];
+
+  private muteWatcherInterval: any = null;
 
   constructor(
     private dataService: DataService,
@@ -40,11 +44,7 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   onResize() {
     this.videoService.checkViewport();
 
-    if (this.previewVideo && this.previewVideo.nativeElement) {
-      this.previewVideo.nativeElement.volume = 0;
-      this.previewVideo.nativeElement.muted = true;
-      this.previewVideo.nativeElement.defaultMuted = true;
-    }
+    this.enforceVideoMute();
   }
 
   ngOnInit(): void {
@@ -78,14 +78,46 @@ export class MainPageComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (this.previewVideo && this.previewVideo.nativeElement) {
-      this.previewVideo.nativeElement.volume = 0;
-      this.previewVideo.nativeElement.muted = true;
+    this.setupPreviewVideoMute();
+    
+    this.muteWatcherInterval = setInterval(() => {
+      this.enforceVideoMute();
+    }, 10);
+  }
 
-      this.previewVideo.nativeElement.addEventListener('loadeddata', () => {
-        this.previewVideo.nativeElement.volume = 0;
-        this.previewVideo.nativeElement.muted = true;
-      });
+  ngOnDestroy() {
+    if (this.muteWatcherInterval) {
+      clearInterval(this.muteWatcherInterval);
+    }
+  }
+
+  setupPreviewVideoMute() {
+    if (this.previewVideo && this.previewVideo.nativeElement) {
+      const videoEl = this.previewVideo.nativeElement;
+      
+      videoEl.muted = true;
+      videoEl.volume = 0;
+      videoEl.defaultMuted = true;
+      
+      videoEl.setAttribute('muted', 'muted');
+      
+      videoEl.addEventListener('volumechange', this.enforceVideoMute.bind(this));
+      videoEl.addEventListener('loadeddata', this.enforceVideoMute.bind(this));
+      videoEl.addEventListener('play', this.enforceVideoMute.bind(this));
+    }
+  }
+
+  enforceVideoMute() {
+    if (this.previewVideo && this.previewVideo.nativeElement) {
+      const videoEl = this.previewVideo.nativeElement;
+      
+      if (!videoEl.muted || videoEl.volume > 0) {
+        console.log('Forcing video to mute');
+        videoEl.muted = true;
+        videoEl.volume = 0;
+        videoEl.defaultMuted = true;
+        videoEl.setAttribute('muted', 'muted');
+      }
     }
   }
 
