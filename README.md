@@ -1,5 +1,7 @@
 # Videoflix
 
+## You can find the backend of this project here: https://github.com/lehmand/videoflix_backend
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4.
 
 ## Development server
